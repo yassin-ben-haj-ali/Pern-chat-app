@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useAuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 
 
@@ -18,7 +19,7 @@ const useLogin = () => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({username,password})
+                body: JSON.stringify({ username, password })
             })
             const data = await res.json();
 
@@ -26,8 +27,8 @@ const useLogin = () => {
 
             setAuthUser(data);
 
-        } catch (error) {
-            console.error(error);
+        } catch (error: any) {
+            toast.error(error.message);
         } finally {
             setLoading(false);
         }
