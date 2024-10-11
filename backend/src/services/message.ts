@@ -1,10 +1,8 @@
 import prisma from "../db/prisma.js"
+import { getReceiverSocketId, io } from "../socket/socket.js"
+import { IGetMessages, ISendMessage } from "../types/index.js"
 
-interface ISendMessage {
-    senderId: string
-    receiverId: string
-    message: string
-}
+
 
 const sendMessage = async ({ senderId, receiverId, message }: ISendMessage) => {
 
@@ -51,16 +49,17 @@ const sendMessage = async ({ senderId, receiverId, message }: ISendMessage) => {
         })
     }
 
-    //TODO: SOCKET IO FUNCTIONALITY WILL GO HERE
+    const receiverSocketId = getReceiverSocketId(receiverId);
+
+    if (receiverSocketId) {
+        io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
 
 
     return newMessage;
 }
 
-interface IGetMessages {
-    senderId: string
-    userToChatId: string
-}
+
 
 const getMessages = async ({ senderId, userToChatId }: IGetMessages) => {
 

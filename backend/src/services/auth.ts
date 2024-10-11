@@ -2,14 +2,9 @@ import prisma from "../db/prisma.js";
 import { AlreadyExistError, BadRequestError, NotFoundError } from "../utils/appErrors.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../utils/generateToken.js";
+import { ILogin, ISignup } from "../types/index.js";
 
-interface ISignup {
-    username: string,
-    fullName: string,
-    password: string,
-    confirmPassword: string,
-    gender: 'male' | 'female'
-}
+
 const signup = async ({ username, fullName, password, confirmPassword, gender }: ISignup) => {
 
     if (password !== confirmPassword) throw new BadRequestError("Passwords don't match");
@@ -49,10 +44,7 @@ const signup = async ({ username, fullName, password, confirmPassword, gender }:
 
 }
 
-interface ILogin {
-    username: string,
-    password: string
-}
+
 
 const login = async ({ username, password }: ILogin) => {
 

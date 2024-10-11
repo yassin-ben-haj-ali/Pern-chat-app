@@ -11,7 +11,7 @@ const MessageInput = () => {
 		e.preventDefault();
 		if (!message.trim()) return;
 		await sendMessage(message);
-		sendMessage("");
+		setMessage("");
 	}
 
 	return (
